@@ -1,0 +1,13 @@
+{
+    "recommendations": [
+        "octref.vetur",
+        "hollowtree.vue-snippets",
+        "sdras.vue-vscode-snippets",
+        "esbenp.prettier-vscode",
+        "streetsidesoftware.code-spell-checker",
+        "peterjausovec.vscode-docker",
+        "eamodio.gitlens",
+        "donjayamanne.githistory",
+        "formulahendry.docker-explorer"
+    ]
+}
