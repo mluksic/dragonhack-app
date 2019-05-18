@@ -57,7 +57,7 @@ export default {
       drawer: false,
       links: [
         { icon: "dashboard", text: "Dashboard", route: "/" },
-        { icon: "folder", text: "Campaigns", route: "/campaign" },
+        { icon: "folder", text: "Campaigns", route: "/campaigns" },
         { icon: "poll", text: "Reports", route: "/report" }
       ],
       snackbar: false
