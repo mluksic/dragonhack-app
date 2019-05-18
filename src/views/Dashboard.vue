@@ -50,7 +50,48 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      projects: [
+        {
+          title: "Frontend",
+          person: "Zan",
+          due: "20. Jun 2019",
+          start: "18. May 2019",
+          status: "complete"
+        },
+        {
+          title: "Frontend",
+          person: "Luka",
+          due: "1. Jun 2019",
+          start: "18. May 2019",
+          status: "ongoing"
+        },
+        {
+          title: "Python",
+          person: "Matick",
+          due: "10. Jun 2019",
+          start: "18. May 2019",
+          status: "complete"
+        },
+        {
+          title: "Backend",
+          person: "Miha",
+          due: "17. Jun 2019",
+          start: "15. May 2019",
+          status: "overdue"
+        }
+      ]
+    };
+  },
+  methods: {
+    sortBy(property) {
+      this.projects.sort((a, b) => (a[property] < b[property] ? -1 : 1));
+    }
+  },
+  components: {}
+};
 </script>
 <style>
 .project.complete {

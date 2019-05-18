@@ -1,30 +1,10 @@
 <template>
-  <div class="report">
+  <div id="chart">
     <h1 class="subheading grey--text">Reports</h1>
-
-    <v-container class="my-5">
-      <v-layout row wrap>
-        <v-flex xs12 sm6 md4 lg3 v-for="person in team" :key="person.name">
-          <v-card flat class="text-xs-center ma-3">
-            <v-responsive class="pt-4">
-              <v-avatar size="100" class="grey lighten-2">
-                <img :src="person.avatar">
-              </v-avatar>
-            </v-responsive>
-            <v-card-text>
-              <div class="subheading">{{ person.name }}</div>
-              <div class="grey--text">{{ person.role }}</div>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn flat color="grey">
-                <v-icon small left>message</v-icon>
-                <span>Message</span>
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-flex>
-      </v-layout>
-    </v-container>
+    <bar-chart :data="chartData"></bar-chart>
+    <line-chart :data="{'2017-05-13': 2, '2017-05-14': 5}"></line-chart>
+    <scatter-chart :data="[[174.0, 80.0], [176.5, 82.3]]" xtitle="Size" ytitle="Population"></scatter-chart>
+    <geo-chart :data="[['United States', 44], ['Germany', 23], ['Brazil', 22]]"></geo-chart>
   </div>
 </template>
 
@@ -33,21 +13,20 @@ export default {
   components: {},
   data() {
     return {
-      team: [
-        {
-          name: "The Net Ninja",
-          role: "Web developer",
-          avatar: "/avatar-1.png"
-        },
-        { name: "Ryu", role: "Graphic designer", avatar: "/avatar-2.png" },
-        { name: "Chun Li", role: "Web developer", avatar: "/avatar-3.png" },
-        {
-          name: "Gouken",
-          role: "Social media maverick",
-          avatar: "/avatar-4.png"
-        },
-        { name: "Yoshi", role: "Sales guru", avatar: "/avatar-5.png" }
-      ]
+      // Array will be automatically processed with visualization.arrayToDataTable function
+      chartData: [
+        ["Year", "Sales", "Expenses", "Profit"],
+        ["2014", 1000, 400, 200],
+        ["2015", 1170, 460, 250],
+        ["2016", 660, 1120, 300],
+        ["2017", 1030, 540, 350]
+      ],
+      chartOptions: {
+        chart: {
+          title: "Company Performance",
+          subtitle: "Sales, Expenses, and Profit: 2014-2017"
+        }
+      }
     };
   }
 };
