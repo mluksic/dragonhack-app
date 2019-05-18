@@ -1,6 +1,6 @@
 <template>
   <div class="campaign">
-    <h1 class="subheading grey--text">Campaigns as</h1>
+    <h1 class="subheading grey--text">Campaigns</h1>
 
     <v-container class="my-5">
       <v-expansion-panel>
