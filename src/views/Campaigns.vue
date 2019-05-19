@@ -5,7 +5,7 @@
     <v-container class="my-5">
       <v-expansion-panel focusable>
         <v-expansion-panel-content v-for="camp in campaigns" :key="camp.name">
-          <div slot="header">{{ camp.name }}</div>
+          <div slot="header">{{ camp.name }} - {{camp.id}}</div>
           <v-card>
             <v-card-text class="px-4 grey--text">
               <v-layout row wrap class="pa-3">
@@ -13,7 +13,7 @@
                   <!--<v-btn color="primary" dark>Create Ad</v-btn>-->
                   <PopupAd/>
                 </v-flex>
-                <v-flex xs6 sm4 md2>
+                <!--<v-flex xs6 sm4 md2>
                   <div class="caption grey--text">Person</div>
                   <div>The Net Ninja</div>
                 </v-flex>
@@ -24,14 +24,14 @@
                 <v-flex xs2 sm4 md2>
                   <div class="caption grey--text">Status</div>
                   <div>ongoing</div>
-                </v-flex>
+                </v-flex>-->
               </v-layout>
 
               <v-container fluid grid-list-md>
                 <v-layout row wrap>
                   <v-flex xs12 md6 lg3 v-for="ad in camp.ads" :key="ad">
                     <v-flex xs12>
-                      <v-card color="cyan darken-2" class="white--text">
+                      <v-card color="rgba(25, 118, 210, 0.91)" class="white--text">
                         <v-layout>
                           <v-flex xs5>
                             <v-img
@@ -43,7 +43,7 @@
                           <v-flex xs7>
                             <v-card-title primary-title>
                               <div>
-                                <div class="headline">{{ad.id}}</div>
+                                <div class="headline">{{ad.name}}</div>
                                 <div>
                                   <b>Reach:</b>
                                   {{ad.id}}
@@ -52,14 +52,19 @@
                                   <b>Display number:</b>
                                   {{ad.id}}
                                 </div>
+                                <div>
+                                  <b>Location:</b>
+                                  {{ad.location}}
+                                </div>
                               </div>
                             </v-card-title>
                           </v-flex>
                         </v-layout>
                         <v-divider light></v-divider>
                         <v-card-actions class="pa-3">
+                          <v-chip>{{ad.tag}}</v-chip>
                           <v-spacer></v-spacer>
-                          <v-btn v-on:click="deleteAd(ad)" color="warning" dark>DELETE</v-btn>
+                          <v-btn v-on:click="deleteAd(ad)" color="white--grey">DELETE</v-btn>
                         </v-card-actions>
                       </v-card>
                     </v-flex>
@@ -74,6 +79,17 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-container>
+
+    <v-snackbar
+      v-model="snackbar"
+      :color="color"
+      :multi-line="mode === 'multi-line'"
+      :timeout="timeout"
+      :vertical="mode === 'vertical'"
+    >
+      {{ text }}
+      <v-btn dark flat @click="snackbar = false">Close</v-btn>
+    </v-snackbar>
 
     <!--<v-container>
       <v-list>
@@ -106,19 +122,24 @@
           <div slot="header">{{ camp.name }}</div>
     </v-expansion-panel-content>-->
     <!--</v-container>-->
+    <!--<v-btn @refrest="refreshData()" hidden></v-btn>-->
   </div>
 </template>
 
 <script>
 import PopupAd from "../components/PopupAd.vue";
+import axios from "axios";
 
 export default {
   components: {
     PopupAd
   },
+  mounted() {
+    this.campaigns = this.getCampaigns();
+  },
   data() {
     return {
-      headers: [
+      /*headers: [
         {
           text: "Campaigns",
           align: "left",
@@ -127,8 +148,9 @@ export default {
         },
         { text: "Name", value: "name" },
         { text: "Role", value: "role" }
-      ],
-      campaigns: [
+      ],*/
+      campaigns: null
+      /*[
         {
           name: "The Net Ninja",
           role: "Web developer",
@@ -159,7 +181,7 @@ export default {
           avatar: "/avatar-5.png",
           ads: [{ id: "1" }, { id: "2" }]
         }
-      ]
+      ]*/
     };
   },
 
@@ -167,9 +189,15 @@ export default {
     detailLink(camp) {
       return "/detail/" + camp.name;
     },
-    deleteAd(ad) {
+    deleteAd() {
       //console.log("Delete" + ad.id);
       return 0;
+    },
+    getCampaigns() {
+      axios.get("http://193.2.178.254:3000/campaigns").then(response => {
+        //console.log(response + "ASasSasAS");
+        this.campaigns = response.data;
+      });
     }
   }
 };
