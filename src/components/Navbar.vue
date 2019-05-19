@@ -1,7 +1,7 @@
 <template>
   <nav>
     <v-snackbar v-model="snackbar" :timeout="4000" color="success">
-      <span>Awesome! You added a new project.</span>
+      <span>Awesome! You added a new Campaign.</span>
       <v-btn flat color="white" @click="snackbar = false">Close</v-btn>
     </v-snackbar>
 
@@ -24,9 +24,9 @@
       <v-layout column align-center>
         <v-flex class="mt-5">
           <v-avatar size="100">
-            <img src="/avatar-1.png">
+            <img src="../assets/dragonhack.png">
           </v-avatar>
-          <p class="white--text subheading mt-1">The Net ninja</p>
+          <p class="white--text subheading mt-1">Dragon Power</p>
         </v-flex>
         <v-flex class="mt-3 mb-4">
           <Popup @projectAdded="snackbar = true"/>
@@ -54,7 +54,7 @@ export default {
   },
   data() {
     return {
-      drawer: false,
+      drawer: true,
       links: [
         { icon: "dashboard", text: "Dashboard", route: "/" },
         { icon: "folder", text: "Campaigns", route: "/campaigns" },
