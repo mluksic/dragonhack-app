@@ -11,7 +11,7 @@
               <v-layout row wrap class="pa-3">
                 <v-flex xs2 sm4 md2>
                   <!--<v-btn color="primary" dark>Create Ad</v-btn>-->
-                  <PopupAd/>
+                  <PopupAd v-bind:campaignId="camp.id"/>
                 </v-flex>
                 <!--<v-flex xs6 sm4 md2>
                   <div class="caption grey--text">Person</div>
@@ -34,11 +34,7 @@
                       <v-card color="rgba(25, 118, 210, 0.91)" class="white--text">
                         <v-layout>
                           <v-flex xs5>
-                            <v-img
-                              src="https://cdn.vuetifyjs.com/images/cards/foster.jpg"
-                              height="125px"
-                              contain
-                            ></v-img>
+                            <v-img :src="camp.image" height="125px" contain></v-img>
                           </v-flex>
                           <v-flex xs7>
                             <v-card-title primary-title>
@@ -64,7 +60,7 @@
                         <v-card-actions class="pa-3">
                           <v-chip>{{ad.tag}}</v-chip>
                           <v-spacer></v-spacer>
-                          <v-btn v-on:click="deleteAd(ad)" color="white--grey">DELETE</v-btn>
+                          <v-btn v-on:click="deleteAd(ad.id)" color="white--grey">DELETE</v-btn>
                         </v-card-actions>
                       </v-card>
                     </v-flex>
@@ -189,9 +185,10 @@ export default {
     detailLink(camp) {
       return "/detail/" + camp.name;
     },
-    deleteAd() {
+    async deleteAd(adId) {
       //console.log("Delete" + ad.id);
-      return 0;
+      await axios.delete(`http://193.2.178.254:3000/ads/${adId}`);
+      this.getCampaigns();
     },
     getCampaigns() {
       axios.get("http://193.2.178.254:3000/campaigns").then(response => {
