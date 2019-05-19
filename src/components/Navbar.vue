@@ -14,7 +14,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn flat color="grey">
+      <v-btn flat color="grey" @click="signOut">
         <span>Sign Out</span>
         <v-icon right>exit_to_app</v-icon>
       </v-btn>
@@ -48,9 +48,11 @@
 </template>
 <script>
 import Popup from "./Popup.vue";
+import Login from "../views/Login.vue";
 export default {
   components: {
-    Popup
+    Popup,
+    Login
   },
   data() {
     return {
@@ -62,6 +64,12 @@ export default {
       ],
       snackbar: false
     };
+  },
+  methods: {
+    signOut() {
+      this.drawer = false;
+      this.$router.push("Login");
+    }
   }
 };
 </script>
