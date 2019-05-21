@@ -4,13 +4,13 @@
 
     <v-container class="my-5">
       <v-layout row class="mb-3">
-        <v-tooltip top>
+        <!-- <v-tooltip top>
           <v-btn slot="activator" small flat color="grey" @click="sortBy('title')">
             <v-icon left small>folder</v-icon>
             <span class="caption text-lowercase">By project name</span>
           </v-btn>
           <span>Sort items by project name</span>
-        </v-tooltip>
+        </v-tooltip>-->
         <v-tooltip top>
           <v-btn slot="activator" small flat color="grey" @click="sortBy('person')">
             <v-icon left small>person</v-icon>
@@ -23,7 +23,7 @@
       <v-card flat v-for="project in projects" :key="project.title">
         <v-layout row wrap :class="`pa-3 project ${project.status}`">
           <v-flex xs12 md6>
-            <div class="caption grey--text">Project title</div>
+            <div class="caption grey--text">Campaign title</div>
             <div>{{ project.title }}</div>
           </v-flex>
           <v-flex xs6 sm4 md2>
@@ -55,32 +55,11 @@ export default {
     return {
       projects: [
         {
-          title: "Frontend",
+          title: "Holcar ad default -1",
           person: "Zan",
           due: "20. Jun 2019",
-          start: "18. May 2019",
-          status: "complete"
-        },
-        {
-          title: "Frontend",
-          person: "Luka",
-          due: "1. Jun 2019",
-          start: "18. May 2019",
+          start: "20. May 2019",
           status: "ongoing"
-        },
-        {
-          title: "Python",
-          person: "Matick",
-          due: "10. Jun 2019",
-          start: "18. May 2019",
-          status: "complete"
-        },
-        {
-          title: "Backend",
-          person: "Miha",
-          due: "17. Jun 2019",
-          start: "15. May 2019",
-          status: "overdue"
         }
       ]
     };

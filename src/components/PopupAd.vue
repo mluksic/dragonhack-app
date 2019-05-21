@@ -2,7 +2,7 @@
   <v-dialog max-width="600px" v-model="dialog">
     <v-btn flat slot="activator" class="success">Create Ad</v-btn>
     <v-card>
-      <v-card-title>
+      <v-card-title class="grey lighten-4">
         <h2>Create Ad!</h2>
       </v-card-title>
       <v-card-text>
@@ -34,34 +34,39 @@
               @change="onFilePicked"
             >
           </v-flex>
-          <v-text-field label="Tag" v-model="tag" prepend-icon="location_city"></v-text-field>
+          <!-- <v-text-field label="Tag" v-model="tag" prepend-icon="location_city"></v-text-field> -->
           <!-- <v-text-field label="Location" v-model="location" prepend-icon="location_city"></v-text-field> -->
           <v-layout wrap align-center>
-            <v-flex xs12 sm6 d-flex>
-              <v-select :test="test" label="Location" prepend-icon="location_city"></v-select>
+            <v-flex xs12 d-flex>
+              <v-select :items="locations" label="Location" prepend-icon="location_city"></v-select>
             </v-flex>
           </v-layout>
-          <v-text-field label="Gender" v-model="gender" prepend-icon="location_city"></v-text-field>
+          <v-layout wrap align-center>
+            <v-flex xs12 d-flex>
+              <v-select :items="gender" label="Gender" @change="this.gender" prepend-icon="face"></v-select>
+            </v-flex>
+          </v-layout>
           <v-menu>
             <v-text-field
+              xs6
               slot="activator"
-              :value="formattedDate"
+              :value="formattedDateStart"
               label="Start"
               prepend-icon="date_range"
             ></v-text-field>
             <v-date-picker v-model="start"></v-date-picker>
           </v-menu>
           <v-menu>
-            <v-text-field slot="activator" :value="formattedDate" label="Due"></v-text-field>
+            <v-text-field xs6 slot="activator" :value="formattedDateDue" label="To"></v-text-field>
             <v-date-picker v-model="due"></v-date-picker>
           </v-menu>
           <v-combobox
             v-model="chips"
-            :items="items"
+            :items="tags"
             label="Your ad target interests"
             chips
             clearable
-            prepend-icon="filter_list"
+            prepend-icon="loyalty"
             solo
             multiple
           >
@@ -82,24 +87,46 @@
 
 <script>
 import axios from "axios";
+import format from "date-fns/format";
+
 export default {
   data: () => ({
+    dialog: false,
     start: null,
+    due: null,
     chips: [],
-    items: ["eyeglasses", "sunglasses", "beard", "Young", "Middle", "Old"],
+    tags: [
+      "eyeglasses",
+      "sunglasses",
+      "beard",
+      "Young",
+      "Middle",
+      "Old",
+      "default"
+    ],
+    gender: ["Male", "Female"],
     name: null,
     imageName: "",
     imageUrl: "",
     imageFile: "",
-    locations: ["Ljubljana", "Maribor"],
+    locations: "Ljubljana",
     test: ["Foo", "Bar", "Fizz", "Buzz"]
   }),
   props: ["campaignId"],
+  computed: {
+    formattedDateDue() {
+      return this.due ? format(this.due, "Do MMM YYYY") : "";
+    },
+    formattedDateStart() {
+      return this.start ? format(this.start, "Do MMM YYYY") : "";
+    }
+  },
   methods: {
     addAd() {
       const object = {
         name: this.name,
-        tag: this.tag,
+        tag:
+          this.chips.length > 1 ? this.chips[0] + this.chips[1] : this.chips[0],
         image: this.image,
         location: this.locations,
         gender: this.gender,
@@ -114,7 +141,12 @@ export default {
         .then(response => {
           this.createResp = response.status;
           this.dialog = false;
-          this.$emit("projectAdded");
+          this.image = null;
+          this.name = null;
+          this.tag = null;
+          this.location = null;
+          this.gender = null;
+          this.$emit("reload");
         })
         .catch(error => {
           console.error(error);
@@ -124,11 +156,9 @@ export default {
       this.chips.splice(this.chips.indexOf(item), 1);
       this.chips = [...this.chips];
     },
-
     pickFile() {
       this.$refs.image.click();
     },
-
     onFilePicked(e) {
       const files = e.target.files;
       console.log(files);
@@ -143,7 +173,7 @@ export default {
           this.imageUrl = fr.result;
           this.imageFile = files[0];
           this.image = fr.result;
-          // this.image = fr.result.replace(/^data:(.*;base64,)?/, "");
+          //   this.image = fr.result.replace(/^data:(.*;base64,)?/, "");
           console.log("imageeee" + this.image);
         });
       } else {
