@@ -9,11 +9,13 @@
 
 <script>
 import Navbar from "./components/Navbar.vue";
+import Login from "./views/Login.vue";
 
 export default {
   name: "App",
   components: {
-    Navbar
+    Navbar,
+    Login
   },
   data() {
     return {};

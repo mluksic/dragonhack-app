@@ -11,7 +11,7 @@
               <v-layout row wrap class="pa-3">
                 <v-flex xs2 sm4 md2>
                   <!--<v-btn color="primary" dark>Create Ad</v-btn>-->
-                  <PopupAd v-bind:campaignId="camp.id"/>
+                  <PopupAd @reload="getCampaigns" v-bind:campaignId="camp.id"/>
                 </v-flex>
                 <!--<v-flex xs6 sm4 md2>
                   <div class="caption grey--text">Person</div>
@@ -34,20 +34,12 @@
                       <v-card color="rgba(25, 118, 210, 0.91)" class="white--text">
                         <v-layout>
                           <v-flex xs5>
-                            <v-img :src="camp.image" height="125px" contain></v-img>
+                            <v-img :src="ad.image" height="125px" contain></v-img>
                           </v-flex>
                           <v-flex xs7>
                             <v-card-title primary-title>
                               <div>
-                                <div class="headline">{{ad.name}}</div>
-                                <div>
-                                  <b>Reach:</b>
-                                  {{ad.id}}
-                                </div>
-                                <div>
-                                  <b>Display number:</b>
-                                  {{ad.id}}
-                                </div>
+                                <div style="font-size:20">{{ad.name}}</div>
                                 <div>
                                   <b>Location:</b>
                                   {{ad.location}}
@@ -131,7 +123,7 @@ export default {
     PopupAd
   },
   mounted() {
-    this.campaigns = this.getCampaigns();
+    this.getCampaigns();
   },
   data() {
     return {

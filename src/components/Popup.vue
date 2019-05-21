@@ -61,7 +61,7 @@ export default {
         .then(response => {
           this.createResp = response.status;
           this.dialog = false;
-          this.$emit("projectAdded");
+          this.$emit("reload");
           //this.$emit("refresh");
           //console.log(response);
         })
